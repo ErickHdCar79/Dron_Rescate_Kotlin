@@ -79,7 +79,6 @@ fun main() {
     println("SIMULADOR DE MISIÓN DE RESCATE")
     println()
 
-    // --- ENTRADA DE DATOS ---
     print("Distancia de ida: ")
     val distanciaIda = readln().toDoubleOrNull() ?: 0.0
 
@@ -124,4 +123,12 @@ fun main() {
         "MISIÓN NO AUTORIZADA"
     }
 
+    println()
+    println("RESULTADO DE LA EVALUACIÓN")
+    println("Distancia total: $distanciaTotal km")
+    println("Tiempo estimado: $tiempoEstimado minutos")
+    println("Consumo estimado: $consumoEstimado %")
+    println("Batería al regresar: $bateriaAlRegresar %")
+    println("Nivel de riesgo: $nivelRiesgo")
+    println("Decisión: $decision")
 }
