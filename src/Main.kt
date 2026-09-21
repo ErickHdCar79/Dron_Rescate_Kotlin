@@ -1,4 +1,3 @@
-
 fun calcularDistanciaTotal(distanciaIda: Double): Double =
     distanciaIda * 2.0
 
@@ -41,7 +40,6 @@ fun calcularConsumoBateria(
     return consumoDistancia + consumoPeso + consumoExtra
 }
 
-// 2. Funciones de una sola expresión para cálculo y validación de batería
 fun calcularBateriaFinal(
     bateriaInicial: Double,
     consumo: Double
@@ -51,6 +49,31 @@ fun tieneReservaSuficiente(
     bateriaFinal: Double,
     reservaMinima: Double = 15.0
 ): Boolean = bateriaFinal >= reservaMinima
+
+val clasificarViento: (Double) -> String = { velocidad ->
+    when {
+        velocidad < 20.0 -> "Bajo"
+        velocidad < 40.0 -> "Medio"
+        else -> "Alto"
+    }
+}
+
+fun evaluarRiesgo(
+    velocidadViento: Double,
+    pesoCarga: Double,
+    clasificador: (Double) -> String
+): String {
+    val riesgoBase = clasificador(velocidadViento)
+    return if (pesoCarga > 5.0) {
+        when (riesgoBase) {
+            "Bajo" -> "Medio"
+            "Medio" -> "Alto"
+            else -> "Alto"
+        }
+    } else {
+        riesgoBase
+    }
+}
 
 fun main() {
     println("SIMULADOR DE MISIÓN DE RESCATE")
@@ -65,6 +88,9 @@ fun main() {
 
     print("Batería disponible: ")
     val bateriaDisponible = readln().toDoubleOrNull() ?: 0.0
+
+    print("Velocidad del viento: ")
+    val velocidadViento = readln().toDoubleOrNull() ?: 0.0
 
     print("Tipo de carga: ")
     val tipoCarga = readln()
@@ -82,7 +108,6 @@ fun main() {
         else -> 0.0
     }
 
-    // Llamada utilizando argumentos con nombre
     val consumoEstimado = calcularConsumoBateria(
         distanciaTotal = distanciaTotal,
         pesoCarga = pesoCarga,
@@ -91,11 +116,12 @@ fun main() {
 
     val bateriaAlRegresar = calcularBateriaFinal(bateriaDisponible, consumoEstimado)
     val reservaSuficiente = tieneReservaSuficiente(bateriaFinal = bateriaAlRegresar, reservaMinima = 15.0)
+    val nivelRiesgo = evaluarRiesgo(velocidadViento, pesoCarga, clasificarViento)
 
-    // La decisión depende exclusivamente de si se conserva la reserva mínima de 15%
-    val decision = if (reservaSuficiente && bateriaAlRegresar >= 0.0) {
+    val decision = if (reservaSuficiente && bateriaAlRegresar >= 0.0 && nivelRiesgo != "Alto") {
         "MISIÓN AUTORIZADA"
     } else {
         "MISIÓN NO AUTORIZADA"
     }
+
 }
