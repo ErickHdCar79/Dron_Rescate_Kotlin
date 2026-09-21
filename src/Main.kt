@@ -25,8 +25,8 @@ fun calcularTiempoFinal(
 ): Double =
     when (condicion.lowercase()) {
         "normal" -> tiempoBase
-        "lluvia" -> ajusteLluvia(tiempoBase)
-        "emergencia" -> ajusteEmergencia(tiempoBase)
+        "lluvia" -> aplicarAjuste(tiempoBase,ajusteLluvia)
+        "emergencia" -> aplicarAjuste(tiempoBase,ajusteEmergencia)
         else -> tiempoBase
     }
 
